@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edital Esquematizado TJRR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: white;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .subject-block {
+            background-color: #1A1A1A;
+            margin-bottom: 0.75rem;
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+        .subject-block:hover {
+            background-color: #2A2A2A;
+        }
+        .subject-details {
+            display: none;
+            background-color: #2A2A2A;
+            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .subject-details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .subject-details ul li {
+            margin-bottom: 0.5rem;
+        }
+        .checkbox {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-md mx-auto">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Edital Esquematizado</h1>
+            <div class="text-2xl">👑</div>
+        </header>
+
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-2">Progresso Geral</h2>
+            <div class="bg-gray-700 rounded-full h-6 relative">
+                <div id="general-progress-bar" class="bg-orange-500 h-6 rounded-full" style="width: 0%"></div>
+                <span id="general-progress-text" class="absolute inset-0 flex items-center justify-center text-sm font-semibold">0%</span>
+            </div>
+        </div>
+
+        <div id="conteudo"></div>
+    </div>
+
+    <script>
+        const conteudoEdital = {
+            "LÍNGUA PORTUGUESA": [
+                "Interpretação e Compreensão de texto",
+                "Organização estrutural dos textos",
+                "Marcas de textualidade: coesão, coerência e intertextualidade",
+                "Modos de organização discursiva",
+                "Tipos textuais",
+                "Textos literários e não literários",
+                "Tipologia da frase portuguesa",
+                "Estrutura da frase portuguesa",
+                "Problemas estruturais das frases",
+                "Norma culta",
+                "Pontuação e sinais gráficos",
+                "Organização sintática das frases",
+                "Tipos de discurso",
+                "Registros de linguagem",
+                "Funções da linguagem",
+                "Elementos dos atos de comunicação",
+                "Estrutura e formação de palavras",
+                "Formas de abreviação",
+                "Classes de palavras",
+                "Semântica",
+                "Os dicionários",
+                "Vocabulário",
+                "Ortografia e acentuação gráfica",
+                "A crase"
+            ],
+            "LEIS RR": [
+                "Legislação Estadual: Regime Jurídico dos Servidores Públicos Civis do Estado de Roraima",
+                "Legislação Interna: Novo Código de Organização Judiciária do Estado de Roraima (COJERR)",
+                "Regimento Interno do Tribunal de Justiça do Estado de Roraima",
+                "Código de Ética e de Conduta dos servidores do Tribunal de Justiça do Estado de Roraima",
+                "Política de Gestão de Desempenho por Competências"
+            ],
+            "DIREITO CONSTITUCIONAL": [
+                "Constituição: conceito, classificações, princípios fundamentais",
+                "Direitos e garantias fundamentais",
+                "Organização político-administrativa",
+                "Administração pública",
+                "Poder Judiciário",
+                "Conselho Nacional de Justiça (CNJ)",
+                "Funções essenciais à Justiça"
+            ],
+            "DIREITO ADMINISTRATIVO": [
+                "Noções de organização administrativa",
+                "Administração direta e indireta",
+                "Princípios da administração pública",
+                "Órgãos públicos",
+                "Agentes públicos",
+                "Poderes administrativos",
+                "Ato administrativo",
+                "Licitação e Contratos"
+            ],
+            "DIREITO CIVIL": [
+                "Lei de introdução às normas do Direito brasileiro",
+                "Pessoas naturais",
+                "Pessoas jurídicas",
+                "Bens",
+                "Fatos jurídicos"
+            ],
+            "DIREITO PENAL": [
+                "Aplicação da lei penal",
+                "Teoria do crime",
+                "Crimes contra a pessoa",
+                "Crimes contra o patrimônio",
+                "Crimes contra a administração pública",
+                "Disposições constitucionais aplicáveis ao direito penal",
+                "Crimes hediondos",
+                "Abuso de autoridade"
+            ],
+            "REDAÇÃO": [
+                "Abordagem do tema (7 pontos)",
+                "Progressão textual (7 pontos)",
+                "Seleção vocabular (4 pontos)",
+                "Norma culta (2 pontos)"
+            ]
+        };
+
+        function criarConteudo() {
+            const conteudoDiv = document.getElementById('conteudo');
+            
+            for (const [materia, assuntos] of Object.entries(conteudoEdital)) {
+                const materiaDiv = document.createElement('div');
+                materiaDiv.className = 'subject-block';
+
+                materiaDiv.innerHTML = `
+                    <div class="flex items-center cursor-pointer" onclick="toggleDetails('${materia}')">
+                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3">📚</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg font-medium">${materia}</h3>
+                            <div class="mt-1 w-full bg-gray-700 rounded-full h-1.5">
+                                <div id="progress-bar-${materia}" class="progress-bar bg-white h-1.5 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="text-sm ml-2" id="progress-${materia}">0%</div>
+                    </div>
+                    <div id="details-${materia}" class="subject-details">
+                        <ul>
+                            ${assuntos.map((assunto, index) => `
+                                <li>
+                                    <label class="flex items-center space-x-3 text-sm">
+                                        <input type="checkbox" id="checkbox-${materia}-${index}" class="checkbox form-checkbox text-orange-500 rounded focus:ring-orange-500" data-materia="${materia}" onchange="atualizarProgresso('${materia}')">
+                                        <span>${assunto}</span>
+                                    </label>
+                                </li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                conteudoDiv.appendChild(materiaDiv);
+            }
+
+            carregarProgresso();
+        }
+
+        function toggleDetails(materia) {
+            const detailsDiv = document.getElementById(`details-${materia}`);
+            detailsDiv.style.display = detailsDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function atualizarProgresso(materia) {
+            const checkboxes = document.querySelectorAll(`input[data-materia="${materia}"]`);
+            const total = checkboxes.length;
+            const marcados = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const porcentagem = (marcados / total) * 100;
+            
+            const progressSpan = document.getElementById(`progress-${materia}`);
+            const progressBar = document.getElementById(`progress-bar-${materia}`);
+            
+            progressSpan.textContent = `${porcentagem.toFixed(1)}%`;
+            progressBar.style.width = `${porcentagem}%`;
+
+            atualizarProgressoGeral();
+            salvarProgresso();
+        }
+
+        function atualizarProgressoGeral() {
+            const todasMaterias = Object.keys(conteudoEdital);
+            let progressoTotal = 0;
+
+            todasMaterias.forEach(materia => {
+                const checkboxes = document.querySelectorAll(`input[data-materia="${materia}"]`);
+                const total = checkboxes.length;
+                const marcados = Array.from(checkboxes).filter(cb => cb.checked).length;
+                progressoTotal += (marcados / total);
+            });
+
+            const progressoGeralPorcentagem = (progressoTotal / todasMaterias.length) * 100;
+            
+            const generalProgressBar = document.getElementById('general-progress-bar');
+            const generalProgressText = document.getElementById('general-progress-text');
+            
+            generalProgressBar.style.width = `${progressoGeralPorcentagem}%`;
+            generalProgressText.textContent = `${progressoGeralPorcentagem.toFixed(1)}%`;
+        }
+
+        function salvarProgresso() {
+            const progresso = {};
+            Object.keys(conteudoEdital).forEach(materia => {
+                const checkboxes = document.querySelectorAll(`input[data-materia="${materia}"]`);
+                progresso[materia] = Array.from(checkboxes).map(cb => cb.checked);
+            });
+            localStorage.setItem('progressoEdital', JSON.stringify(progresso));
+        }
+
+        function carregarProgresso() {
+            const progressoSalvo = localStorage.getItem('progressoEdital');
+            if (progressoSalvo) {
+                const progresso = JSON.parse(progressoSalvo);
+                Object.keys(progresso).forEach(materia => {
+                    const checkboxes = document.querySelectorAll(`input[data-materia="${materia}"]`);
+                    checkboxes.forEach((cb, index) => {
+                        cb.checked = progresso[materia][index];
+                    });
+                    atualizarProgresso(materia);
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', criarConteudo);
+    </script>
+</body>
+</html>
